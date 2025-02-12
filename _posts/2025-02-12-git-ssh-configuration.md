@@ -1,5 +1,5 @@
 ---
-title: "Git Configuration"
+title: "Git SSH Configuration"
 date: 2025-02-12 10:00:00 +0800
 categories: [configuration, git]
 tags: [configuration, git]
