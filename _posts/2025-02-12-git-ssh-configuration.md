@@ -56,7 +56,7 @@ Ensure the SSH configuration is correct, you can use the following command to te
 ssh -T git@github.com
 ```
 
-If it is the first time connecting, the system will prompt you whether to trust the GitHub server, input `yes`即可。If everything is normal, you will see something like:
+If it is the first time connecting, the system will prompt you whether to trust the GitHub server, input `yes`.If everything is normal, you will see something like:
 
 ```
 Hi username! You've successfully authenticated, but GitHub does not provide shell access.
