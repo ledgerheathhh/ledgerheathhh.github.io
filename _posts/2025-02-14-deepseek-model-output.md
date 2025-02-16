@@ -1,8 +1,8 @@
 ---
 title: "DeepSeek Model Output"
 date: 2025-02-14 10:00:00 +0800
-categories: [deepseek, model]
-tags: [deepseek, model]
+categories: [llm, deepseek]
+tags: [llm, deepseek]
 ---
 
 # ollama返回
