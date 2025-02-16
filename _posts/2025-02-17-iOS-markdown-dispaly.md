@@ -190,8 +190,6 @@ Markdown 作为一种轻量级标记语言，因其简洁的语法和易读性�
 
 ---
 
-#### 五、结语
-
-在 Objective-C 项目中集成 Markdown 渲染并非难事，但需根据项目需求权衡性能、兼容性和开发成本。无论是通过桥接 Swift 库，还是依赖成熟的 HTML 转换方案，核心目标是为用户提供一致的内容体验。希望本文能助你在技术选型时豁然开朗！
+#### 五、扩展
 
 **扩展阅读**：[苹果官方 AttributedString 文档](https://developer.apple.com/documentation/foundation/attributedstring)
