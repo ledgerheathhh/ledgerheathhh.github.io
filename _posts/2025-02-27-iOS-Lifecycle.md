@@ -4,90 +4,108 @@ date: 2025-02-27 00:50:00 +0800
 categories: [iOS,Lifecycle]
 tags: [iOS, Lifecycle]
 ---
-## APP 生命周期
+- iOS 应用的生命周期包括未运行、非活跃、活跃、后台和挂起五种状态，研究表明这些状态转换对管理应用行为至关重要。
+- 关键方法包括 `application(_:didFinishLaunchingWithOptions:)`（启动时初始化）、`applicationWillResignActive(_:)`（即将非活跃）、`applicationDidEnterBackground(_:)`（进入后台）、`applicationWillEnterForeground(_:)`（即将进入前台）、`applicationDidBecomeActive(_:)`（恢复活跃）和 `applicationWillTerminate(_:)`（即将终止）。
+- UIViewController 的生命周期包括初始化、视图加载、视图出现、布局调整、视图消失和内存管理等阶段，这些方法在界面管理中起到关键作用。
+- 对于 SwiftUI 应用，生命周期管理有所不同，但本文重点讨论 UIKit 方式。
 
-#### 应用程序的五种状态：
+---
 
-- 未运行状态（Not running）：程序尚未启动，或者应用正在运行但是中途被系统停止，当设备内存紧张的时候，也会将挂起的应用当前状态写入到内存，然后退出应用并释放内存，这时候我们虽然能够在任务栏看到图标，但是它已经退出，我们称之为应用墓碑。
-- 未激活状态（Inactive）：当前应用正在前台运行，但是焦点被其他抢去。比较典型的是用户锁屏或者离开应用去响应来电，信息等事件等时候。还有一种是比较常见的就是在不同状态切换的时候会短暂处于该状态,这时候App会停止运行，但是依然占用内存空间，用于保存当前状态。
-- 激活状态（Active）：当前应用正常运行，应用焦点在当前应用上，所有的事件都会被分发到当前应用，这时应用占用内存和CPU时间。
-- 后台状态（Backgroud）：程序在后台而且能执行代码，大多数程序进入这个状态后会在在这个状态上停留一会。时间到之后会进入挂起状态(Suspended)。有的程序经过特殊的请求后可以长期处于Backgroud状态
-- 挂起状态（Suspended）: 应用处在后台，并且已经停止执行代码。这时候应用还驻留在内存中，并没有被系统完全回收，只有在系统发出低内存告警的时候，系统才会把处于挂起状态的应用清除出内存给前台正在运行的应用。这时候不占用CPU资源，但是内存依然占用。
+### 应用生命周期概述
 
-#### App 生命周期的切换会通过AppDelegate来通知开发者，下面是一些常见方法：
+#### 状态解释
 
-```objectivec
-// 告诉代理进程启动但还没进入状态保存
-- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- **未运行（Not Running）**：应用未在内存中，可能未启动或已被系统终止。
+- **非活跃（Inactive）**：应用在前台运行但不接收事件，如用户锁屏或接电话时。
+- **活跃（Active）**：应用在前台运行并接收用户输入，这是正常交互状态。
+- **后台（Background）**：应用在后台运行，可执行代码但时间有限，之后可能挂起。
+- **挂起（Suspended）**：应用在内存中但不执行代码，系统可能随时终止以释放内存。
 
-// 启动基本完成,程序准备开始运行
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+#### 关键方法
 
-// 当应用程序将要进入非活动状态执行，在此期间，应用程序不接收消息或事件，比如打来电话
-- (void)applicationWillResignActive:(UIApplication *)application
+以下是 `UIApplicationDelegate` 协议中的主要方法及其用途：
 
-// 当应用程序进入活动状态执行，此方法跟上面那个方法相反
-- (void)applicationDidBecomeActive:(UIApplication *)application
+| 方法名                                            | 用途                                                             |
+| ------------------------------------------------- | ---------------------------------------------------------------- |
+| `application(_:didFinishLaunchingWithOptions:)` | 启动时初始化，配置 UI，处理启动选项如推送通知或 URL 方案。       |
+| `applicationWillResignActive(_:)`               | 应用即将非活跃，暂停需要用户交互的任务，如接电话或按 Home 键时。 |
+| `applicationDidEnterBackground(_:)`             | 应用进入后台，保存数据，释放不必要的资源，约有 5 秒完成任务。    |
+| `applicationWillEnterForeground(_:)`            | 应用即将从后台返回前台，准备用户交互，如重新加载数据。           |
+| `applicationDidBecomeActive(_:)`                | 应用恢复活跃，恢复之前暂停的任务，更新 UI。                      |
+| `applicationWillTerminate(_:)`                  | 应用即将被终止，执行最终清理，如保存未保存数据。                 |
 
-// 当程序被推送到后台的时候调用。所以要设置后台继续运行，则在这个函数里面设置即可
-- (void)applicationDidEnterBackground:(UIApplication *)application
+这些方法确保应用在状态转换时能够正确响应系统事件。例如，`applicationDidEnterBackground(_:)` 通常用于保存用户数据，因为应用可能被系统挂起或终止。
 
-// 当程序从后台将要重新回到前台时候调用，此方法跟上面的那个方法相反
-- (void)applicationWillEnterForeground:(UIApplication *)application
+### UIViewController 生命周期
 
-// 当程序将要退出是被调用，通常是用来保存数据和一些退出前的清理工作
-- (void)applicationWillTerminate:(UIApplication *)application 
-```
+UIViewController 的生命周期管理了视图控制器的创建、显示和销毁过程。以下是关键方法及其作用：
 
-## UIViewController生命周期
+1. **初始化阶段**：
 
-生命周期方法介绍
+   - `alloc`：分配内存为视图控制器对象。
+   - `init`（包括 `initWithNibName` 或 `initWithCoder`）：初始化视图控制器，`initWithNibName` 用于代码创建，`initWithCoder` 用于从 nib 或 storyboard 加载。
+   - `awakeFromNib`：从 nib 文件加载后调用，所有 outlets 和 actions 已连接。
+2. **视图加载阶段**：
 
-1. alloc
-   创建对象，分配空间
-2. init (initWithNibName|initWithCoder)
-   初始化对象，初始化数据
-   nitWithCoder:反归档,如果对象是从文件解析来的就会调用
-   initWithNibName:使用代码创建对象的时候会调用这个方法
-3. awakeFromNib
-   所有视图的outlet和action已经连接，但还没有被确定。awakeFromNib:从xib或者storyboard加载完毕会调用。
-4. loadView
-   完成一些关键view的初始化工作，加载view。当你alloc并init了一个ViewController时，这个ViewController是还没有创建view的.
-   loadView用于加载控制器管理的 view，不能直接手动调用该方法
-5. viewDidLoad
-   载入完成，可以进行自定义数据以及动态创建其他控件
-6. viewWillAppear
-   视图将出现在屏幕之前
-7. updateViewConstraints
-   在该函数中用于更新视图的约束.在控制器的view更新视图布局时，会调用updateViewConstraints函数,可以重写这个函数来更新当前视图的布局.这个函数只有在Autolayout布局的时候才会被调用。初始化约束时，最好写到init或viewDidLoad类似的函数中，updateViewConstraints适合于更新约束
-8. viewWillLayoutSubviews
-   将要对子视图进行调整,该方法在通知控制器将要布局 view 的子控件时调用。
-   在这个函数中布局子视图，如果用了Autolayout,那么会在viewWillLayoutSubviews和viewDidLayoutSubviews之间用Autolayout机制布局，但是需要注意的是该方法调用时，AutoLayout 未起作用。
-9. viewDidLayoutSubviews
-   对子视图进行调整完毕,控制器的子视图的布局已完成，这里获取的frame才是最正确的frame。如果用约束来布局，在该函数去设置视图的frame 是无效的。如果用frame来布局的，在该函数中去设置视图的frame是有效的。self.view在该函数中去设置frame是有效的。该方法调用时，AutoLayout 已经完成。
-10. viewDidAppear
-    视图已在屏幕上渲染完成
-11. viewWillDisappear
-    视图将被从屏幕上移除
-12. viewDidDisappear
-    视图已经被从屏幕上移除
-13. dealloc
-    视图被销毁，此处需要对你在init和viewDidLoad中创建的对象进行释放
-14. didReceiveMemoryWarning
-    内存警告,当系统内存不足时，当前控制器以及所在的Navigation堆栈上的控制器都会调用didReceiveMemoryWarning函数.该函数会判断当前控制器的view是否显示在window上，如果没有会将view以及子view全部销毁.
+   - `loadView`：加载视图控制器管理的视图，通常由系统处理，但可重写以编程方式创建视图。注意：如果使用 Interface Builder 创建视图，勿重写此方法，否则 xib 或 storyboard 设置会失效。
+   - `viewDidLoad`：视图加载到内存后调用，进行额外的视图设置，如添加子视图或设置属性。
+3. **视图出现与消失**：
 
-#### extra:
+   - `viewWillAppear(_:)`：视图即将显示时调用，适合弹出键盘或设置状态栏颜色。
+   - `viewDidAppear(_:)`：视图已显示时调用。
+   - `viewWillDisappear(_:)`：视图即将从屏幕移除时调用。
+   - `viewDidDisappear(_:)`：视图已从屏幕移除时调用。
+4. **布局调整**：
 
-在main函数执行前，会初始化objc运行时环境，这时会加载所有类并调用类的load方法，一般在这个方法中实现方法交换(Method Swizzle);
+   - `updateViewConstraints`：更新视图的约束，仅在 Auto Layout 时调用。初始化约束时，建议写在 `init` 或 `viewDidLoad` 中，`updateViewConstraints` 适合更新约束。
+   - `viewWillLayoutSubviews`：视图即将布局子视图时调用，此时 Auto Layout 未起作用。
+   - `viewDidLayoutSubviews`：视图布局子视图完成后调用，此时 frame 值最准确。如果用约束布局，在此设置 frame 无效；如果用 frame 布局，则有效。
+5. **内存管理**：
 
-UIViewController的self.view是通过懒加载方式创建的，每次调用控制器的view属性时并且view为nil时，loadView函数就会被调用.加载成功后接着调用viewDidLoad函数，如果self.view已经是非空的情况下会直接调用viewDidLoad函数。
+   - `didReceiveMemoryWarning`：系统内存不足时调用，当前控制器及导航堆栈上的控制器都会调用此方法。如果视图未显示在 window 上，系统可能销毁视图以释放内存。
+   - `dealloc`：视图控制器被销毁时调用，释放在 `init` 和 `viewDidLoad` 中创建的对象。
 
-如果在loadView函数中自定义了view，那么xib. storyboard中对页面的设置会失效，因为它是在加载之后调用的，所以如果使用 Interface Builder创建view，则务必不要重写该方法
+---
 
-[super loadView]默认的逻辑:如果控制器由xib或storyboard初始化,那么会根据xib或storyboard的传入的名字来初始化view；如果没有显示的指定名称，就默认加载和控制器同名的文件；如果没有找到文件，就会创建一个空白的UIView，这个view的frame为屏幕的大小。所以在覆写该方法的时候不应该再调用父类的该方法。
+### Extra
 
-ViewController init里不要调用self.view,一般在init里应该只有关键数据的初始化。
-如果确实需要重写loadView，在重写的代码中只初始化view，其他的工作放在viewDidLoad方法中完成。
-viewDidLoad 这时候view已经有了，可以创建并添加界面上的其他子视图，以及设置这些视图的属性。
-viewWillAppear 这个一般在view被添加到superview之前，切换动画之前调用，一般可以用于弹出键盘，status bar和navigationbar颜色设置等。
-viewWillLayoutSubViews/viewDidLayoutSubviews viewDidLayoutSubviews的时候frame值已经确定了，可以在这里做一些依赖frame的操作
+#### 状态转换
+
+以下是典型状态转换序列，帮助理解方法调用顺序：
+
+- **启动**：从不运行到活跃，调用 `application(_:didFinishLaunchingWithOptions:)`，随后可能调用 `applicationDidBecomeActive(_:)`。
+- **非活跃**：如用户按 Home 键，调用 `applicationWillResignActive(_:)`，然后可能进入后台。
+- **后台**：调用 `applicationDidEnterBackground(_:)`，应用进入后台状态。
+- **返回前台**：调用 `applicationWillEnterForeground(_:)`，随后 `applicationDidBecomeActive(_:)` 恢复活跃。
+- **终止**：系统决定终止应用时，调用 `applicationWillTerminate(_:)`。
+
+需要注意的是，`applicationWillTerminate(_:)` 并非总是被调用，例如设备重启时不会触发。
+
+#### 实际应用
+
+在开发中，正确处理这些方法至关重要。例如：
+
+- 在 `applicationDidEnterBackground(_:)` 中，建议保存用户数据并释放缓存，以减少内存占用，避免被系统终止。
+- 在 `applicationWillEnterForeground(_:)` 中，可检查网络状态或更新 UI，确保用户体验流畅。
+- `applicationWillTerminate(_:)` 适合执行最终清理，但由于可能不被调用，关键数据应在 `applicationDidEnterBackground(_:)` 中保存。
+- 在 `viewDidLoad` 中设置视图的子视图和属性。
+- 在 `didReceiveMemoryWarning` 中释放非必要资源以应对内存压力。
+- 注意 `loadView` 的重写：如果使用 Interface Builder 创建视图，勿重写此方法。
+
+此外，证据显示，过度依赖 AppDelegate 会导致代码膨胀，建议通过扩展或单独类分离职责，提升可维护性。
+
+#### 额外细节
+
+- 在 `main` 函数执行前，objc 运行时环境初始化，会加载所有类并调用类的 `load` 方法，通常用于实现方法交换（Method Swizzle）。
+- UIViewController 的 `self.view` 是通过懒加载创建的，每次访问 `view` 属性且 `view` 为 nil 时，调用 `loadView`。加载成功后调用 `viewDidLoad`。
+- 如果重写 `loadView`，不应该调用父类的 `loadView`，因为默认逻辑会根据 xib 或 storyboard 初始化视图。如果未找到同名文件，会创建一个空白 UIView，frame 为屏幕大小。
+- 在 `init` 中不要调用 `self.view`，应仅初始化关键数据。如果需要重写 `loadView`，只初始化视图，其他工作放在 `viewDidLoad` 中完成。
+
+#### 引用来源
+
+信息来源于以下可靠资源：
+
+- [Managing your app’s life cycle Apple Developer Documentation](https://developer.apple.com/documentation/uikit/managing-your-app-s-life-cycle)
+- [Application life cycle in iOS Every iOS Developer Medium](https://manasaprema04.medium.com/application-life-cycle-in-ios-f7365d8c1636)
+- [IOS app lifecycle Javatpoint](https://www.tpointtech.com/ios-app-lifecycle)
+- [App Life Cycle and View Controller Life Cycle in Swift IOS Medium](https://medium.com/@kashif00527/app-life-cycle-and-view-controller-life-cycle-in-swift-ios-3a8393963ad4)
