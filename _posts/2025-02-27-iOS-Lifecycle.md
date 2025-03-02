@@ -4,7 +4,6 @@ date: 2025-02-27 00:50:00 +0800
 categories: [iOS,Lifecycle]
 tags: [iOS, Lifecycle]
 ---
-
 - iOS 应用的生命周期包括未运行、非活跃、活跃、后台和挂起五种状态，研究表明这些状态转换对管理应用行为至关重要。
 - 关键方法包括 `application(_:didFinishLaunchingWithOptions:)`（启动时初始化）、`applicationWillResignActive(_:)`（即将非活跃）、`applicationDidEnterBackground(_:)`（进入后台）、`applicationWillEnterForeground(_:)`（即将进入前台）、`applicationDidBecomeActive(_:)`（恢复活跃）和 `applicationWillTerminate(_:)`（即将终止）。
 - UIViewController 的生命周期包括初始化、视图加载、视图出现、布局调整、视图消失和内存管理等阶段，这些方法在界面管理中起到关键作用。
@@ -100,7 +99,7 @@ UIViewController 的生命周期管理了视图控制器的创建、显示和销
 
 #### 引用来源
 
-信息来源于以下可靠资源：
+信息来源于以下资源：
 
 - [Managing your app’s life cycle Apple Developer Documentation](https://developer.apple.com/documentation/uikit/managing-your-app-s-life-cycle)
 - [Application life cycle in iOS Every iOS Developer Medium](https://manasaprema04.medium.com/application-life-cycle-in-ios-f7365d8c1636)
