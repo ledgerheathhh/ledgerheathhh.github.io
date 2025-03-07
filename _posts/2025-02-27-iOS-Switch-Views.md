@@ -1,5 +1,5 @@
 ---
-title: "iOS Lifecycle"
+title: "iOS View"
 date: 2025-02-27 00:50:00 +0800
 categories: [iOS,Lifecycle]
 tags: [iOS, Lifecycle]
