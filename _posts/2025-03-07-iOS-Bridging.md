@@ -4,7 +4,6 @@ date: 2025-03-07 20:50:00 +0800
 categories: [iOS,Bridging]
 tags: [iOS, Bridging]
 ---
-
 # Swift 库桥接到 Objective-C 项目的全面指南
 
 ## 引言
@@ -81,13 +80,13 @@ public class SwiftLibrary: NSObject {
 
 在 Objective-C 文件中使用 Swift 代码，需要导入自动生成的头文件：
 
-```objective-c
+```objectivec
 #import "YourProjectName-Swift.h"
 ```
 
 然后就可以使用 Swift 类了：
 
-```objective-c
+```objectivec
 SwiftLibrary *library = [[SwiftLibrary alloc] init];
 NSString *result = [library method];
 NSLog(@"%@", result);
@@ -101,7 +100,7 @@ NSLog(@"%@", result);
 2. 在 Build Phases 中的 "Link Binary With Libraries" 添加该 Framework
 3. 在需要使用的 Objective-C 文件中导入 Framework：
 
-```objective-c
+```objectivec
 @import SwiftFramework;
 // 或者
 #import <SwiftFramework/SwiftFramework.h>
