@@ -1,10 +1,9 @@
 ---
 title: "WKWebViewJavascriptBridge"
-date: 2025-05-07 14:00:00 +0800
+date: 2025-04-20 14:00:00 +0800
 categories: [iOS,WKWebViewJavascriptBridge]
 tags: [iOS, WKWebViewJavascriptBridge]
 ---
-
 # WKWebViewJavascriptBridge 实现 iOS 与 JS 通信的原理分析
 
 ## 引言
@@ -61,6 +60,7 @@ function setupWKWebViewJavascriptBridge(callback) {
 - **作用**：触发原生侧注入 `WKWebViewJavascriptBridgeJS` 脚本，设置 `WKWebViewJavascriptBridge` 对象。
 
 注入的脚本定义了以下核心函数：
+
 - `registerHandler`：注册处理器。
 - `callHandler`：调用原生处理器。
 - `_fetchQueue`：获取消息队列。
@@ -259,18 +259,18 @@ public func call(handlerName: String, data: Any? = nil, callback: WKWebViewJavas
 func send(handlerName: String, data: Any?, callback: Callback?) {
     var message = [String: Any]()
     message["handlerName"] = handlerName
-    
+  
     if data != nil {
         message["data"] = data
     }
-    
+  
     if callback != nil {
         uniqueId += 1
         let callbackID = "native_iOS_cb_\(uniqueId)"
         responseCallbacks[callbackID] = callback
         message["callbackID"] = callbackID
     }
-    
+  
     queue(message: message)
 }
 ```
@@ -297,10 +297,10 @@ private func queue(message: Message) {
 ```swift
 private func dispatch(message: Message) {
     guard var messageJSON = serialize(message: message, pretty: false) else { return }
-    
+  
     messageJSON = messageJSON.replacingOccurrences(of: "\\", with: "\\\\")
     // ... 其他转义处理 ...
-    
+  
     let javascriptCommand = "WKWebViewJavascriptBridge._handleMessageFromiOS('\(messageJSON)');"
     if Thread.current.isMainThread {
         delegate?.evaluateJavascript(javascript: javascriptCommand)
@@ -328,7 +328,7 @@ private func flushMessageQueue() {
         if error != nil {
             print("WKWebViewJavascriptBridge: WARNING: Error when trying to fetch data from WKWebView: \(String(describing: error))")
         }
-        
+      
         guard let resultStr = result as? String else { return }
         self.base.flush(messageQueueString: resultStr)
     }
@@ -343,10 +343,10 @@ func flush(messageQueueString: String) {
         log(messageQueueString)
         return
     }
-    
+  
     for message in messages {
         log(message)
-        
+      
         if let responseID = message["responseID"] as? String {
             guard let callback = responseCallbacks[responseID] else { continue }
             callback(message["responseData"])
@@ -361,7 +361,7 @@ func flush(messageQueueString: String) {
             } else {
                 callback = { (_ responseData: Any?) -> Void in }
             }
-            
+          
             guard let handlerName = message["handlerName"] as? String else { continue }
             guard let handler = messageHandlers[handlerName] else {
                 log("NoHandlerException, No handler for message from JS: \(message)")
@@ -426,14 +426,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      
         let configuration = WKWebViewConfiguration()
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         view.addSubview(webView)
-        
+      
         bridge = WKWebViewJavascriptBridge(webView: webView)
         bridge.isLogEnable = true // 启用日志以调试
-        
+      
         // 注册处理器
         bridge.register(handlerName: "testiOSCallback") { (parameters, callback) in
             guard let params = parameters else {
@@ -444,12 +444,12 @@ class ViewController: UIViewController {
             print("Native received data: \(params)")
             callback?(["response": "Native processed data"])
         }
-        
+      
         // 调用 JavaScript 处理器
         bridge.call(handlerName: "testJavascriptHandler", data: ["foo": "bar"]) { (response) in
             print("Native received response: \(response ?? [:])")
         }
-        
+      
         // 加载网页
         if let url = URL(string: "https://example.com") {
             webView.load(URLRequest(url: url))
@@ -481,7 +481,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('JS received data: ' + JSON.stringify(data));
             responseCallback('JS processed data');
         });
-        
+      
         // 调用原生处理器
         bridge.callHandler('testiOSCallback', {'foo': 'bar'}, function(response) {
             console.log('JS received response: ' + JSON.stringify(response));
@@ -491,6 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ```
 
 **注意**：
+
 - 确保网页加载的 HTML 包含 `setupWKWebViewJavascriptBridge` 脚本，通常在 `DOMContentLoaded` 事件中执行。
 - 示例中添加了参数检查，处理无效数据的情况。
 
@@ -535,5 +536,6 @@ WKWebViewJavascriptBridge 的实现依赖于以下关键机制：
 WKWebViewJavascriptBridge 通过巧妙地利用 WKWebView 的脚本消息处理机制，实现了 iOS 和 JavaScript 之间的高效双向通信。其设计简洁、性能卓越，提供了易于使用的 API，让开发者能够轻松地在混合式应用中实现复杂的交互功能。理解其内部实现原理不仅有助于更好地使用该库，还能在需要时进行定制和优化。对于希望在 iOS 应用中集成 Web 内容的开发者来说，WKWebViewJavascriptBridge 是一个不可或缺的工具。
 
 **引用**：
+
 - [WKWebViewJavascriptBridge GitHub 仓库](https://github.com/Lision/WKWebViewJavascriptBridge)
 - [在 iOS 应用中设置 WKWebView 和 JavaScript 之间的桥梁](https://medium.com/%40bahalek/setting-up-js-bridge-between-your-webpage-and-wkwebview-in-your-ios-app-4ec8ca8230f7)
