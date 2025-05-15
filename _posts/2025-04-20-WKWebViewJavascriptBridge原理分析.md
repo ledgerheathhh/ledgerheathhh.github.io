@@ -1,6 +1,6 @@
 ---
 title: "WKWebViewJavascriptBridge"
-date: 2025-04-20 14:00:00 +0800
+date: 2025-04-20 15:00:00 +0800
 categories: [iOS,WKWebViewJavascriptBridge]
 tags: [iOS, WKWebViewJavascriptBridge]
 ---
@@ -328,7 +328,7 @@ private func flushMessageQueue() {
         if error != nil {
             print("WKWebViewJavascriptBridge: WARNING: Error when trying to fetch data from WKWebView: \(String(describing: error))")
         }
-      
+    
         guard let resultStr = result as? String else { return }
         self.base.flush(messageQueueString: resultStr)
     }
@@ -346,7 +346,7 @@ func flush(messageQueueString: String) {
   
     for message in messages {
         log(message)
-      
+    
         if let responseID = message["responseID"] as? String {
             guard let callback = responseCallbacks[responseID] else { continue }
             callback(message["responseData"])
@@ -361,7 +361,7 @@ func flush(messageQueueString: String) {
             } else {
                 callback = { (_ responseData: Any?) -> Void in }
             }
-          
+        
             guard let handlerName = message["handlerName"] as? String else { continue }
             guard let handler = messageHandlers[handlerName] else {
                 log("NoHandlerException, No handler for message from JS: \(message)")
@@ -426,14 +426,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+    
         let configuration = WKWebViewConfiguration()
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         view.addSubview(webView)
-      
+    
         bridge = WKWebViewJavascriptBridge(webView: webView)
         bridge.isLogEnable = true // 启用日志以调试
-      
+    
         // 注册处理器
         bridge.register(handlerName: "testiOSCallback") { (parameters, callback) in
             guard let params = parameters else {
@@ -444,12 +444,12 @@ class ViewController: UIViewController {
             print("Native received data: \(params)")
             callback?(["response": "Native processed data"])
         }
-      
+    
         // 调用 JavaScript 处理器
         bridge.call(handlerName: "testJavascriptHandler", data: ["foo": "bar"]) { (response) in
             print("Native received response: \(response ?? [:])")
         }
-      
+    
         // 加载网页
         if let url = URL(string: "https://example.com") {
             webView.load(URLRequest(url: url))
@@ -481,7 +481,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('JS received data: ' + JSON.stringify(data));
             responseCallback('JS processed data');
         });
-      
+    
         // 调用原生处理器
         bridge.callHandler('testiOSCallback', {'foo': 'bar'}, function(response) {
             console.log('JS received response: ' + JSON.stringify(response));
