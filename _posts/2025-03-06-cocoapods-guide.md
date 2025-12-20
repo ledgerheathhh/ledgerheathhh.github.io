@@ -1,5 +1,5 @@
 ---
-title: "CocoaPods"
+title: "CocoaPods 依赖管理完整指南"
 date: 2025-03-06 23:50:00 +0800
 categories: [iOS,CocoaPods]
 tags: [iOS, CocoaPods]

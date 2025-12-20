@@ -1,5 +1,5 @@
 ---
-title: "WKWebViewJavascriptBridge"
+title: "WKWebViewJavascriptBridge 通信机制深度解析"
 date: 2025-04-20 15:00:00 +0800
 categories: [iOS,WKWebViewJavascriptBridge]
 tags: [iOS, WKWebViewJavascriptBridge]

@@ -1,5 +1,5 @@
 ---
-title: "iOS Lifecycle"
+title: "iOS 视图控制器生命周期详解"
 date: 2025-02-27 00:50:00 +0800
 categories: [iOS,Lifecycle]
 tags: [iOS, Lifecycle]
