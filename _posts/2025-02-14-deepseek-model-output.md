@@ -3,6 +3,7 @@ title: "DeepSeek Model Output"
 date: 2025-02-14 10:00:00 +0800
 categories: [llm, deepseek]
 tags: [llm, deepseek]
+description: 解析 DeepSeek 模型的输出特性，特别是 R1 模型的推理过程标签机制，对比 Ollama 命令行输出与 API 调用返回的流式和非流式响应格式。
 ---
 
 # ollama返回

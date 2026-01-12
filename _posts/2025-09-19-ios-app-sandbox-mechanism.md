@@ -1,8 +1,9 @@
 ---
 title: "iOS 应用沙盒机制深度解析"
 date: 2025-09-19 23:00:00 +0800
-categories: [iOS,sandbox]
+categories: [iOS, sandbox]
 tags: [iOS, sandbox]
+description: 全面解析 iOS App 沙盒机制，包括容器目录结构、各目录用途、动态路径管理、Entitlements 授权、App Groups 数据共享以及 Keychain 安全存储，提供开发者最佳实践。
 ---
 
 ### iOS App 沙盒深度解析：安全基石、数据管理与开发者避坑指南

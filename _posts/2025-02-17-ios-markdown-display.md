@@ -3,6 +3,7 @@ title: "iOS Markdown 内容显示优化指南"
 date: 2025-02-17 10:00:00 +0800
 categories: [iOS, Markdown]
 tags: [iOS, Markdown]
+description: 全面解析在 Objective-C iOS 应用中渲染 Markdown 的四种主流方案，包括 MMMarkdown+DTCoreText、Swift Down 库、WKWebView 和 iOS 15+ 原生支持，提供选型建议和最佳实践。
 ---
 ### 在 Objective-C 的 iOS 应用中优雅展示 Markdown 内容：方案全解析
 

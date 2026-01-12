@@ -3,6 +3,7 @@ title: "原生 iOS 与 WKWebView 混合应用性能对比分析"
 date: 2025-02-20 10:00:00 +0800
 categories: [iOS, Hybrid]
 tags: [iOS, Hybrid]
+description: 对比原生 iOS 应用与 WKWebView 混合应用在启动时间、响应速度、渲染性能、电池消耗和内存使用等关键指标上的差异，为技术选型提供数据支撑。
 ---
 ### 性能对比：原生 iOS 应用与使用 WKWebView 加载本地 HTML/CSS/JS 的混合应用对比
 

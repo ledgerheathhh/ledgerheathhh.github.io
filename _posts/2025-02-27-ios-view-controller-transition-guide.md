@@ -3,6 +3,7 @@ title: "iOS 开发中常用的视图切换方案详解"
 date: 2025-02-27 00:50:00 +0800
 categories: [iOS, UI]
 tags: [iOS, View, Navigation, Controller]
+description: 系统总结 iOS 开发中八种常用的视图切换方案，从框架级导航组件（UINavigationController、UITabBarController）到交互式过渡和自定义转场动画，提供完整的实现代码和选型指南。
 ---
 
 在 iOS 开发中，视图切换是构建流畅用户体验的关键环节。根据应用场景的不同，我们可以将切换方案分为 **框架级导航组件**、**交互式过渡呈现** 以及 **高级容器与自定义方案** 三大类。

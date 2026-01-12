@@ -1,8 +1,9 @@
 ---
 title: "WKWebViewJavascriptBridge 通信机制深度解析"
 date: 2025-04-20 15:00:00 +0800
-categories: [iOS,WKWebViewJavascriptBridge]
+categories: [iOS, WKWebViewJavascriptBridge]
 tags: [iOS, WKWebViewJavascriptBridge]
+description: 深入剖析 WKWebViewJavascriptBridge 的实现原理，包括 JavaScript 侧和 Swift 侧的初始化流程、消息队列机制、回调管理以及完整的双向通信流程，提供实用代码示例。
 ---
 # WKWebViewJavascriptBridge 实现 iOS 与 JS 通信的原理分析
 

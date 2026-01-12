@@ -1,8 +1,9 @@
 ---
 title: "CocoaPods 依赖管理完整指南"
 date: 2025-03-06 23:50:00 +0800
-categories: [iOS,CocoaPods]
+categories: [iOS, CocoaPods]
 tags: [iOS, CocoaPods]
+description: 从零开始学习 CocoaPods，涵盖安装配置、Podfile 编写、依赖管理以及 pod install 与 pod update 的区别，帮助 iOS 开发者高效管理项目依赖。
 ---
 #### 引言：依赖管理的必要性与 CocoaPods 的角色
 

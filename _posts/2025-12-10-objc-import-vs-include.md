@@ -1,8 +1,9 @@
 ---
 title: "iOS 开发基石：深入解析 `#import`、`#include` 与 `@import`"
 date: 2025-12-10 23:00:00 +0800
-categories: [iOS，Objective-C，import，include，模块化]
-tags: [iOS，Objective-C，import，include，模块化]
+categories: [iOS, Objective-C, import, include, 模块化]
+tags: [iOS, Objective-C, import, include, 模块化]
+description: 深入探讨 #include、#import 与 @import 的区别，解析头文件引用的最佳实践，帮助 iOS 开发者优化编译时间、规避依赖冲突。
 ---
 
 

@@ -1,8 +1,9 @@
 ---
 title: "iOS 视图控制器生命周期详解"
 date: 2025-02-27 00:50:00 +0800
-categories: [iOS,Lifecycle]
+categories: [iOS, Lifecycle]
 tags: [iOS, Lifecycle]
+description: 深入解析 iOS 应用的五种状态和 UIApplicationDelegate 生命周期方法，以及 UIViewController 的完整生命周期阶段，包括初始化、视图加载、显示、布局和内存管理。
 ---
 - iOS 应用的生命周期包括未运行、非活跃、活跃、后台和挂起五种状态，研究表明这些状态转换对管理应用行为至关重要。
 - 关键方法包括 `application(_:didFinishLaunchingWithOptions:)`（启动时初始化）、`applicationWillResignActive(_:)`（即将非活跃）、`applicationDidEnterBackground(_:)`（进入后台）、`applicationWillEnterForeground(_:)`（即将进入前台）、`applicationDidBecomeActive(_:)`（恢复活跃）和 `applicationWillTerminate(_:)`（即将终止）。

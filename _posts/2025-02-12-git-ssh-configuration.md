@@ -3,6 +3,7 @@ title: "Git SSH Configuration"
 date: 2025-02-12 10:00:00 +0800
 categories: [configuration, git]
 tags: [configuration, git]
+description: 详细的 GitHub SSH 配置指南，从生成 SSH 密钥到测试连接，帮助你安全高效地访问和管理 GitHub 仓库。
 ---
 
 In GitHub, configuring SSH is primarily done to securely access and operate GitHub repositories using SSH keys. Here are the steps to configure GitHub SSH:

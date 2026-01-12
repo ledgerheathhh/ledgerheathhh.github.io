@@ -1,8 +1,9 @@
 ---
 title: "Swift 与 Objective-C 混编桥接技术详解"
 date: 2025-03-07 20:50:00 +0800
-categories: [iOS,Bridging]
+categories: [iOS, Bridging]
 tags: [iOS, Bridging]
+description: 深入讲解 Swift 与 Objective-C 混编桥接的原理和实现方法，包括桥接头文件配置、@objc 标记使用、类型兼容性处理以及常见问题的解决方案。
 ---
 # Swift 库桥接到 Objective-C 项目的全面指南
 

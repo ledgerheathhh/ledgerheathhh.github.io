@@ -3,6 +3,7 @@ title: "SSH Configuration File"
 date: 2025-02-12 11:00:00 +0800
 categories: [configuration, ssh]
 tags: [configuration, ssh]
+description: 全面解析 SSH 配置文件（~/.ssh/config）的使用方法，包括多账号管理、自定义端口、超时设置和代理配置等实用技巧。
 ---
 
 In the SSH configuration file, you can customize the connection settings for specific hosts, including identity authentication keys, connection options, and ports. The SSH configuration file is usually located in `~/.ssh/config`, and if the file does not exist, you can create it manually. Here are some common configuration options and examples.

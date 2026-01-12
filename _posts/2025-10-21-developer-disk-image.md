@@ -1,8 +1,9 @@
 ---
 title: "iOS Developer Disk Image"
 date: 2025-10-21 23:00:00 +0800
-categories: [iOS,Developer Disk Image]
+categories: [iOS, Developer Disk Image]
 tags: [iOS, Developer Disk Image]
+description: 深入解析 Xcode 调试时的 "Developer Disk Image could not be mounted" 错误，对比模拟器与物理设备的调试架构差异，介绍设备支持文件的获取与部署方法，以及 iOS 17+ PDDI 机制的安全演进。
 ---
 
 
